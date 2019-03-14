@@ -4,6 +4,7 @@ const url = require('url');
 const uuid = require('uuid');
 const rp = require('request-promise');
 const redirect = require('micro-redirect');
+const trailSlash = require('remove-trailing-separator');
 
 const provider = 'github';
 
@@ -18,7 +19,7 @@ const microAuthGithub = ({ clientId, clientSecret, callbackUrl, path = '/auth/gi
 
     const { pathname, query } = url.parse(req.url);
 
-    if (pathname === path) {
+    if (trailSlash(pathname) === path) {
       try {
         const state = uuid.v4();
         const redirectUrl = getRedirectUrl(state);
@@ -30,8 +31,8 @@ const microAuthGithub = ({ clientId, clientSecret, callbackUrl, path = '/auth/gi
       }
     }
 
-    const callbackPath = url.parse(callbackUrl).pathname;
-    if (pathname === callbackPath) {
+    const callbackPath = normalizeUrl(url.parse(callbackUrl).pathname);
+    if (trailSlash(pathname) === callbackPath) {
       try {
         const { state, code } = querystring.parse(query);
 
