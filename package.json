@@ -17,6 +17,7 @@
   "author": "Dima Paloskin",
   "license": "MIT",
   "dependencies": {
+    "remove-trailing-slash": "^0.1.0",
     "micro-redirect": "^1.0.0",
     "request": "^2.81.0",
     "request-promise": "^4.2.0",
